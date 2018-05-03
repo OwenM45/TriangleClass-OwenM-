@@ -2,7 +2,7 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +29,7 @@ public class Main extends JFrame implements ActionListener
 	JLabel lblCircumRadius;
 	JLabel lblCircumArea;
 	JLabel lblCircumfrence;
+	JLabel lblAngles;
 	JLabel lblTriangleType;
 	
 	JTextField txtSideA;
@@ -90,9 +91,13 @@ public class Main extends JFrame implements ActionListener
         lblCircumfrence.setBounds(180, 150, 280, 20);  
         panel.add(lblCircumfrence);
         
-        lblTriangleType = new JLabel("Type: ");
+        lblTriangleType = new JLabel("other Angles: ");
         lblTriangleType.setBounds(180, 170, 280, 20);  
         panel.add(lblTriangleType);
+        
+        lblAngles = new JLabel("Type: ");
+        lblAngles.setBounds(180, 190, 280, 20);  
+        panel.add(lblAngles);
         
         //sets up the area where the user enters the first name
         txtSideA = new JTextField("Side A");
@@ -139,7 +144,26 @@ public class Main extends JFrame implements ActionListener
 	{
 		if(e.getSource() == btnCreate)
 		{
-			JOptionPane.showMessageDialog(null, "Triangle was invalid", "Error", JOptionPane.INFORMATION_MESSAGE);
+			try 
+			{
+				Triangle t = new Triangle(Float.parseFloat(txtSideA.getText()), Float.parseFloat(txtSideB.getText()), Float.parseFloat(txtSideC.getText()), Float.parseFloat(txtAngleC.getText()));
+				ArrayList<Float> tempAngles = t.getAngles();
+				lblAngles.setText("Angles: " + Float.toString(tempAngles.get(1)) + ", " + Float.toString(tempAngles.get(2)));
+				lblArea.setText("Area: " + Float.toString(t.getArea()));
+				lblPerimiter.setText("Perimeter: " + Float.toString(t.findPerimeter()));
+				lblHeight.setText("Height: " + Float.toString(t.getHeight()));
+				lblCircumRadius.setText("Circumradius: " + Float.toString(t.findCircumradius()));
+				lblCircumArea.setText("Circumarea: " + Float.toString(t.findCircumarea()));
+				lblCircumfrence.setText("Circumfrence: " + Float.toString(t.findCircumfrence()));
+				lblTriangleType.setText("Type: " + t.findType());
+				
+			}
+			catch (Exception error)
+			{
+				JOptionPane.showMessageDialog(null, "Invalid Input", "Error", JOptionPane.ERROR_MESSAGE);
+				System.out.println(error);
+			}
+			
 		}
 	}
 

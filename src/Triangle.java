@@ -22,20 +22,21 @@ public class Triangle
 		sides.add(sideA);
 		sides.add(sideB);
 		sides.add(sideC);
+		angles.add(angleC);
 		isValid();
 	}
 	
 	void isValid()
 	{
-		if (sides.get(1) + sides.get(2) < sides.get(3))
+		if (sides.get(0) + sides.get(1) < sides.get(2))
 		{
 			JOptionPane.showMessageDialog(null, "Triangle was invalid", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		else if (sides.get(2) + sides.get(3) < sides.get(1))
+		else if (sides.get(1) + sides.get(2) < sides.get(0))
 		{
 			JOptionPane.showMessageDialog(null, "Triangle was invalid", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		else if (sides.get(1) + sides.get(3) < sides.get(2))
+		else if (sides.get(0) + sides.get(2) < sides.get(1))
 		{
 			JOptionPane.showMessageDialog(null, "Triangle was invalid", "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -43,17 +44,18 @@ public class Triangle
 	
 	public ArrayList<Float> getAngles()
 	{
-		double angleA = Math.asin((Math.sin(angles.get(0)) * sides.get(0)) / sides.get(2));
+		double angleA = Math.toDegrees(Math.asin((Math.sin(Math.toRadians(angles.get(0))) * sides.get(0)) / sides.get(2)));
 		float angleAf = (float)angleA;
 		angles.add(angleAf);
-		float angleB = 180 - (angles.get(0) + angles.get(1));
+		float anglesTotal = (angles.get(0) + angles.get(1));
+		float angleB = 180 - anglesTotal;
 		angles.add(angleB);
 		return angles;
 	}
 	
 	public float getArea()
 	{
-		double areaD = 0.5 * sides.get(0) * sides.get(1) * Math.sin(angles.get(1));
+		double areaD = 0.5 * sides.get(0) * sides.get(1) * Math.sin(Math.toRadians(angles.get(1)));
 		area = (float)areaD;
 		return area;
 	}
@@ -85,7 +87,8 @@ public class Triangle
 	
 	public float findCircumfrence()
 	{
-		double circumfrenceD = Math.PI * circumradius;
+		double circumfrenceD = Math.PI * (circumradius * 2);
+		circumfrence = (float)circumfrenceD;
 		return circumfrence;
 	}
 	
@@ -94,6 +97,56 @@ public class Triangle
 		float a = sides.get(0);
 		float b = sides.get(1);
 		float c = sides.get(2);
+		
+		if (a > b && a > c)
+		{
+			if (c + b == a)
+			{
+				type = "Right angle";
+			}
+			else if (c + b < a)
+			{
+				type = "Acute";
+			}
+			else if (c + b > a)
+			{
+				type = "Obtuse";
+			}
+		}
+		else if (b > a && b > c)
+		{
+			if (c + a == b)
+			{
+				type = "Right angle";
+			}
+			else if (c + a < b)
+			{
+				type = "Acute";
+			}
+			else if (c + a > b)
+			{
+				type = "Obtuse";
+			}
+		}
+		else if (c > b && c > a)
+		{
+			if (b + a == c)
+			{
+				type = "Right angle";
+			}
+			else if (b + a < c)
+			{
+				type = "Acute";
+			}
+			else if (b + a > c)
+			{
+				type = "Obtuse";
+			}
+		}
+		else if (a == b && b == c)
+		{
+			type = "Acute";
+		}
 		
 		return type;
 	}
